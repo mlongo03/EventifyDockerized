@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  nginx:
+    container_name: nginx
+    volumes:
+      - angular:/var/www/angular
+    networks:
+      - eventify
+    depends_on:
+      - angular
+    build:
+      context: requirements/nginx
+      dockerfile: Dockerfile
+    env_file: .env
+    ports:
+      - "443:443"
+    restart: on-failure
+
+  postgres:
+    image: postgres:alpine
+    container_name: postgres
+    networks:
+      - eventify
+    env_file: .env
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+
+  angular:
+    container_name: angular
+    env_file: .env
+    volumes:
+      - angular:/app/dist/my_app
+    networks:
+      - eventify
+    build:
+      context: requirements/angular
+      dockerfile: Dockerfile
+    depends_on:
+      - springboot
+    restart: on-failure
+
+  springboot:
+    container_name: springboot
+    networks:
+      - eventify
+    depends_on:
+      - postgres
+    build:
+      context: requirements/springboot
+      dockerfile: Dockerfile
+    env_file: .env
+    ports:
+      - "8443:8443"
+    restart: on-failure
+
+volumes:
+  postgres:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/home/$USERDOCKER/data/postgres'
+  angular:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/home/$USERDOCKER/data/angular'
+
+networks:
+  eventify:
+    driver: bridge
