@@ -17,7 +17,6 @@ up:
 	touch .env ; \
 	echo CERTS_=/etc/nginx/ssl/inception.crt >> ./.env; \
 	echo KEYS_=/etc/nginx/ssl/inception.key >> ./.env; \
-	echo SQL_ROOT_PASSWORD=1234 >> ./.env; \
 	echo USERDOCKER=${USER} >> ./.env; \
 	echo POSTGRES_PASSWORD=1234 >> ./.env; \
 	echo POSTGRES_DB=eventify >> ./.env; \

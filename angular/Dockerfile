@@ -2,7 +2,7 @@ FROM node:20 AS builder
 
 WORKDIR /app
 
-COPY ./tools/package*.json ./
+COPY ./clientEventify/package*.json ./
 
 RUN npm install
 
