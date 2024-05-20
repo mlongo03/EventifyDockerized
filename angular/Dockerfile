@@ -6,7 +6,7 @@ COPY ./clientEventify/package*.json ./
 
 RUN npm install
 
-COPY ./tools .
+COPY ./clientEventify .
 
 RUN npm run build -- --configuration=production
 

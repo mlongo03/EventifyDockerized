@@ -2,36 +2,11 @@ all : up
 
 clean : down
 
-re : vclean up
-
-reboot : down up
+re : clean up
 
 restart : stop start
 
-vclean: down
-	@sudo rm -rf /home/manuele/data/postgres/*
-	@sudo rm -rf /home/manuele/data/angular/*
-
 up:
-	@if [ ! -f ./.env ]; then \
-	touch .env ; \
-	echo CERTS_=/etc/nginx/ssl/inception.crt >> ./.env; \
-	echo KEYS_=/etc/nginx/ssl/inception.key >> ./.env; \
-	echo USERDOCKER=${USER} >> ./.env; \
-	echo POSTGRES_PASSWORD=1234 >> ./.env; \
-	echo POSTGRES_DB=eventify >> ./.env; \
-	fi
-	@if [ ! -d /home/${USER}/data ]; then \
-	mkdir /home/${USER}/data; \
-	mkdir /home/${USER}/data/postgres; \
-	mkdir /home/${USER}/data/angular; \
-	fi
-	@if [ ! -d /home/${USER}/data/postgres ]; then \
-	mkdir /home/${USER}/data/postgres; \
-	fi
-	@if [ ! -d /home/${USER}/data/angular ]; then \
-	mkdir /home/${USER}/data/angular; \
-	fi
 	@sudo docker-compose -f docker-compose.yml up -d --build
 
 down:
@@ -77,3 +52,17 @@ springboot:
 
 postgres_address:
 	sudo docker inspect postgres | grep IPAddress
+
+reback:
+	sudo docker compose stop
+	sudo docker container prune
+	sudo docker rmi eventifydockerized_springboot
+
+rmback:
+	sudo docker rmi eventifydockerized_springboot
+
+rmfront:
+	sudo docker rmi eventifydockerized_angular
+
+rmdb:
+	sudo docker rmi postgres

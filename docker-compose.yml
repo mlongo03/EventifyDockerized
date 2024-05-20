@@ -4,7 +4,7 @@ services:
   nginx:
     container_name: nginx
     volumes:
-      - angular:/var/www/angular
+      - angular-vol:/var/www/angular
     networks:
       - eventify
     depends_on:
@@ -24,7 +24,7 @@ services:
       - eventify
     env_file: .env
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - postgres-vol:/var/lib/postgresql/data
     restart: unless-stopped
     # ports:
     #   - "5432:5432"
@@ -35,7 +35,7 @@ services:
     container_name: angular
     env_file: .env
     volumes:
-      - angular:/app/dist/my_app
+      - angular-vol:/app/dist/my_app
     networks:
       - eventify
     build:
@@ -60,18 +60,8 @@ services:
     restart: on-failure
 
 volumes:
-  postgres:
-    driver: local
-    driver_opts:
-      type: 'none'
-      o: 'bind'
-      device: '/home/$USERDOCKER/data/postgres'
-  angular:
-    driver: local
-    driver_opts:
-      type: 'none'
-      o: 'bind'
-      device: '/home/$USERDOCKER/data/angular'
+  postgres-vol:
+  angular-vol:
 
 networks:
   eventify:
