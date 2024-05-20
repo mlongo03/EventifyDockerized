@@ -13,14 +13,14 @@ vclean: down
 	@sudo rm -rf /home/manuele/data/angular/*
 
 up:
-	@if [ ! -f srcs/.env ]; then \
-	touch srcs/.env ; \
-	echo CERTS_=/etc/nginx/ssl/inception.crt >> srcs/.env; \
-	echo KEYS_=/etc/nginx/ssl/inception.key >> srcs/.env; \
-	echo SQL_ROOT_PASSWORD=1234 >> srcs/.env; \
-	echo USERDOCKER=${USER} >> srcs/.env; \
-	echo POSTGRES_PASSWORD=1234 >> srcs/.env; \
-	echo POSTGRES_DB=eventify >> srcs/.env; \
+	@if [ ! -f ./.env ]; then \
+	touch .env ; \
+	echo CERTS_=/etc/nginx/ssl/inception.crt >> ./.env; \
+	echo KEYS_=/etc/nginx/ssl/inception.key >> ./.env; \
+	echo SQL_ROOT_PASSWORD=1234 >> ./.env; \
+	echo USERDOCKER=${USER} >> ./.env; \
+	echo POSTGRES_PASSWORD=1234 >> ./.env; \
+	echo POSTGRES_DB=eventify >> ./.env; \
 	fi
 	@if [ ! -d /home/${USER}/data ]; then \
 	mkdir /home/${USER}/data; \
@@ -33,16 +33,16 @@ up:
 	@if [ ! -d /home/${USER}/data/angular ]; then \
 	mkdir /home/${USER}/data/angular; \
 	fi
-	@sudo docker-compose -f srcs/docker-compose.yml up -d --build
+	@sudo docker-compose -f docker-compose.yml up -d --build
 
 down:
-	@sudo docker-compose -f srcs/docker-compose.yml down -v --rmi all
+	@sudo docker-compose -f docker-compose.yml down -v --rmi all
 
 stop:
-	@sudo docker-compose -f srcs/docker-compose.yml stop
+	@sudo docker-compose -f docker-compose.yml stop
 
 start:
-	@sudo docker-compose -f srcs/docker-compose.yml start
+	@sudo docker-compose -f docker-compose.yml start
 
 status:
 	@sudo docker ps -a
