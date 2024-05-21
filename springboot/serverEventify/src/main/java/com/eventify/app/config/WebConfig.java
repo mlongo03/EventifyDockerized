@@ -31,9 +31,8 @@ public class WebConfig {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true);
-		// System.out.println("\n\n\n\n\n" + clientProtocol + "://" + clientIp + ":" + clientPort + "\n\n\n\n\n\n\n\n");
-		config.addAllowedOrigin(clientProtocol + "://" + clientIp); // works
-		// config.addAllowedOrigin(clientProtocol + "://" + clientIp + ":" + clientPort); // with port not works
+		config.addAllowedOrigin(clientProtocol + "://" + clientIp + ":" + clientPort);
+		config.addAllowedOrigin(clientProtocol + "://" + clientIp);
 		config.setAllowedHeaders(Arrays.asList(
 			HttpHeaders.AUTHORIZATION,
 			HttpHeaders.CONTENT_TYPE,

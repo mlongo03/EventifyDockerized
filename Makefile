@@ -52,17 +52,3 @@ springboot:
 
 postgres_address:
 	sudo docker inspect postgres | grep IPAddress
-
-reback:
-	sudo docker compose stop
-	sudo docker container prune
-	sudo docker rmi eventifydockerized_springboot
-
-rmback:
-	sudo docker rmi eventifydockerized_springboot
-
-rmfront:
-	sudo docker rmi eventifydockerized_angular
-
-rmdb:
-	sudo docker rmi postgres
