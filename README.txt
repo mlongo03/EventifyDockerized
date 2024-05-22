@@ -12,6 +12,10 @@ CONFIGURATION
 
 - you can insert your credentials and data by changing environmental
   variables in .env file
+  -- change client ip, port and prot
+  -- change server ip, port and prot
+  -- change postgres credentials
+  -- change eventify utilities
 
 ----------
 
