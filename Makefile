@@ -51,4 +51,10 @@ springboot:
 	@sudo docker exec -it springboot /bin/bash
 
 postgres_address:
-	sudo docker inspect postgres | grep IPAddress
+	@sudo docker inspect postgres | grep IPAddress
+
+purge:
+	@sudo docker system prune -a --force --volumes
+
+prune:
+	@sudo docker container prune

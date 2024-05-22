@@ -41,6 +41,10 @@ services:
     build:
       context: angular
       dockerfile: Dockerfile
+      args:
+        SERVER_IP: $SERVER_IP
+        SERVER_PORT: $SERVER_PORT
+        SERVER_PROT: $SERVER_PROT
     depends_on:
       - springboot
     restart: on-failure

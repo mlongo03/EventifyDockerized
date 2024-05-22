@@ -19,7 +19,8 @@ export class SseService {
 
   private connectToSSE() {
     const userId = window.localStorage.getItem('userId');
-    this.eventSource = new EventSource(`https://localhost:8443/teller/subscribe/${userId}`);
+    // this.eventSource = new EventSource(`https://localhost:8443/teller/subscribe/${userId}`);
+    this.eventSource = new EventSource(`<PROT>://<IP>:<PORT>/teller/subscribe/${userId}`);
     console.log('Creating EventSource');
 
     this.eventSource.onmessage = (event) => {

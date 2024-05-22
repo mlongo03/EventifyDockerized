@@ -10,7 +10,8 @@ import { RedirectService } from './redirect.service';
 export class AxiosService {
 
   constructor(private router: Router, private redirect: RedirectService) {
-    axios.defaults.baseURL = "https://localhost:8443";
+    // axios.defaults.baseURL = "https://localhost:8443";
+    axios.defaults.baseURL = "<PROT>://<IP>:<PORT>";
     axios.defaults.withCredentials = true; // Enable sending cookies with requests
     axios.defaults.headers.post["Content-Type"] = "application/json";
   }
