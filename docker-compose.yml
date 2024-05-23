@@ -14,7 +14,7 @@ services:
       dockerfile: Dockerfile
     env_file: .env
     ports:
-      - "$CLIENT_PORT:$CLIENT_PORT"
+      - "$CLIENT_IP:$CLIENT_PORT:$CLIENT_PORT"
     restart: on-failure
 
   postgres:
@@ -58,7 +58,7 @@ services:
       dockerfile: Dockerfile
     env_file: .env
     ports:
-      - "${SERVER_PORT}:${SERVER_PORT}"
+      - "$SERVER_IP:$SERVER_PORT:$SERVER_PORT"
     restart: on-failure
 
 volumes:
