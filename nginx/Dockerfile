@@ -1,5 +1,15 @@
 FROM debian:bullseye
 
+ARG CERT_FILE
+ARG KEY_FILE
+ARG CERTS_
+ARG KEYS_
+
+ENV CERT_FILE=${CERT_FILE}
+ENV KEY_FILE=${KEY_FILE}
+ENV CERTS_=${CERTS_}
+ENV KEYS_=${KEYS_}
+
 RUN apt update \
  && apt install nginx -y \
  && apt install vim -y \
@@ -12,6 +22,8 @@ RUN apt update \
 
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 COPY tools/nginx.sh /
+COPY conf/${CERT_FILE} ${CERTS_}
+COPY conf/${KEY_FILE} ${KEYS_}
 
 RUN chmod +x /nginx.sh
 

@@ -12,6 +12,11 @@ services:
     build:
       context: nginx
       dockerfile: Dockerfile
+      args:
+        CERT_FILE: $CERT_FILE
+        KEY_FILE: $KEY_FILE
+        CERTS_: $CERTS_
+        KEYS_: $KEYS_
     env_file: .env
     ports:
       - "$CLIENT_IP:$CLIENT_PORT:$CLIENT_PORT"

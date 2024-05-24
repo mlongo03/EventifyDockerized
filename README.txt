@@ -16,9 +16,11 @@ CONFIGURATION
   -- change server ip, port
   -- change database (postgres) credentials
   -- change eventify utilities
-  -- change backend ssl keystore file by putting the new one in springboot/serverEventify/src/main/resources resplacing
-     the oldest one (default one is eventify.jks), and then changing properly environmental Backend ssl keystore credential
-     variables in .env file
+  -- change backend ssl certification by changing ssl keystore file putting the new one in springboot/serverEventify/src/main/resources
+     resplacing the oldest one (default one is eventify.jks), and then if needed by changing properly environmental Backend ssl keystore
+     credential variables in .env file
+  -- change frontend ssl certification by replacing oldest .crt and .key files in nginx/conf (default are eventify.crt and eventify.key)
+     and then if needed by properly changing the environmental Frontend ssl files credential variables in .env file
 
 ----------
 
