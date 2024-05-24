@@ -12,10 +12,13 @@ CONFIGURATION
 
 - you can insert your credentials and data by changing environmental
   variables in .env file
-  -- change client ip, port and prot
-  -- change server ip, port and prot
-  -- change postgres credentials
+  -- change client ip, port
+  -- change server ip, port
+  -- change database (postgres) credentials
   -- change eventify utilities
+  -- change backend ssl keystore file by putting the new one in springboot/serverEventify/src/main/resources resplacing
+     the oldest one (default one is eventify.jks), and then changing properly environmental Backend ssl keystore credential
+     variables in .env file
 
 ----------
 

@@ -58,3 +58,6 @@ purge:
 
 prune:
 	@sudo docker container prune
+
+ssl:
+	@keytool -genkey -alias eventify -keyalg RSA -keystore eventify.jks -storepass password -validity 365 -keysize 2048 -dname "CN=Bravo Team, OU=42, O=42, L=Rome, ST=Italy, C=IT" -keypass password
