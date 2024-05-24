@@ -31,18 +31,15 @@ network:
 	@sudo docker network inspect srcs_eventify
 
 logs:
-	@echo "\nlogs of springbootn\n--------------------------------------------\n"
+	@echo "\nlogs of springboot\n--------------------------------------------\n"
 	@sudo docker logs springboot
 	@echo "\nlogs of postgres\n--------------------------------------------\n"
 	@sudo docker logs postgres
-	@echo "\nlogs of angular\n--------------------------------------------\n"
-	@sudo docker logs angular
+	@echo "\nlogs of angular-nginx\n--------------------------------------------\n"
+	@sudo docker logs angular-nginx
 
-nginx:
-	@sudo docker exec -it nginx /bin/bash
-
-angular:
-	@sudo docker exec -it angular /bin/bash
+angular-nginx:
+	@sudo docker exec -it angular-nginx /bin/bash
 
 postgres:
 	@sudo docker exec -it postgres /bin/bash

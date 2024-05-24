@@ -1,18 +1,19 @@
 version: '3.8'
 
 services:
-  nginx:
-    container_name: nginx
-    volumes:
-      - angular-vol:/var/www/angular
+  angular-nginx:
+    container_name: angular-nginx
     networks:
       - eventify
     depends_on:
-      - angular
+      - springboot
     build:
-      context: nginx
+      context: angular-nginx
       dockerfile: Dockerfile
       args:
+        SERVER_IP: $SERVER_IP
+        SERVER_PORT: $SERVER_PORT
+        SERVER_PROT: $SERVER_PROT
         CERT_FILE: $CERT_FILE
         KEY_FILE: $KEY_FILE
         CERTS_: $CERTS_
@@ -34,24 +35,6 @@ services:
     expose:
       - $POSTGRES_PORT
 
-  angular:
-    container_name: angular
-    env_file: .env
-    volumes:
-      - angular-vol:/app/dist/my_app
-    networks:
-      - eventify
-    build:
-      context: angular
-      dockerfile: Dockerfile
-      args:
-        SERVER_IP: $SERVER_IP
-        SERVER_PORT: $SERVER_PORT
-        SERVER_PROT: $SERVER_PROT
-    depends_on:
-      - springboot
-    restart: on-failure
-
   springboot:
     container_name: springboot
     networks:
@@ -68,7 +51,6 @@ services:
 
 volumes:
   postgres-vol:
-  angular-vol:
 
 networks:
   eventify:

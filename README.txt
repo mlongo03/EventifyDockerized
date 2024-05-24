@@ -41,8 +41,7 @@ OTHER FEATURES
 - run "make restart" if you want to shutdown containers and restart the them
 - run "make stop" if you want to shutdown containers
 - run "make start" if you want to start containers
-- run "make angular" or "make springboot" or "make nginx" or "make postgres" if you want to enter by terminal in one of the containers available
+- run "make angular" or "make springboot" or "make angular-nginx" if you want to enter by terminal in one of the containers available
 - run "sudo docker exec -it postgres psql postgres://<postgres user>:<postgres password>@<postgres ip>:<postgres port>/<postgres database>" or
       "sudo docker exec -it postgres psql -U <postgres user> -d <postgres datbase> -W" and then you enter the <postgres passord> in order to enter
       directly in postgres
-
