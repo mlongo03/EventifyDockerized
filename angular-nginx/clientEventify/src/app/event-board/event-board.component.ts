@@ -62,7 +62,6 @@ export class EventBoardComponent implements OnInit {
 	  `/filter/${userId}`,
 	  filters
 	).then(response => {
-	  console.log("OK");
 	  this.events = response.data;
 
 	  const imageLoadingPromises = this.events.map(event => this.loadURL(event.imageURL));

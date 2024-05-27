@@ -71,7 +71,6 @@ export class AxiosService {
         }
       }
     }
-    console.log("nice");
     const config: AxiosRequestConfig = {
       method: method,
       url: url,
@@ -114,7 +113,6 @@ export class AxiosService {
         }
       }
     }
-    console.log("nice");
     const config: AxiosRequestConfig = {
       method: method,
       url: url,

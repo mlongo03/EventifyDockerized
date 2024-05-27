@@ -1,6 +1,17 @@
 version: '3.8'
 
 services:
+  admin:
+    container_name: adminer
+    image: adminer
+    networks:
+      - eventify
+    restart: always
+    depends_on:
+      - postgres
+    ports:
+      - 8080:8080
+
   angular-nginx:
     container_name: angular-nginx
     networks:
@@ -19,6 +30,8 @@ services:
         CERTS_: $CERTS_
         KEYS_: $KEYS_
     env_file: .env
+    volumes:
+      - adminer-vol:/var/www/adminer
     ports:
       - "$CLIENT_IP:$CLIENT_PORT:$CLIENT_PORT"
     restart: on-failure
@@ -51,6 +64,7 @@ services:
 
 volumes:
   postgres-vol:
+  adminer-vol:
 
 networks:
   eventify:

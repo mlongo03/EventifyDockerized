@@ -60,7 +60,6 @@ export class ModifyEventsComponent {
       const id = +params['id'];
       this.axiosService.request("GET", `/api/event/findById/${id}`, {})
         .then(response => {
-          console.log("OK");
           this.event = response.data;
           console.log(this.event);
           const imageURLs = this.event.imageURL;
