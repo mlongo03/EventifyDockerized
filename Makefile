@@ -7,6 +7,9 @@ re : clean up
 restart : stop start
 
 up:
+	@sudo docker-compose -f docker-compose.yml up --build
+
+detach:
 	@sudo docker-compose -f docker-compose.yml up -d --build
 
 down:

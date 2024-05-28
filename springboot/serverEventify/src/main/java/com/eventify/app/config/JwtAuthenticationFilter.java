@@ -11,6 +11,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.WebUtils;
+import org.springframework.http.HttpStatus;
 
 import com.eventify.app.service.JwtService;
 
@@ -19,6 +20,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -38,7 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         Cookie tokenCookie = WebUtils.getCookie(request, "access_token");
 
         if (tokenCookie == null) {
-            chain.doFilter(request, response);
+            // chain.doFilter(request, response);
             return;
         }
 
@@ -51,6 +53,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+            }
+            else {
+                response.setStatus(HttpStatus.UNAUTHORIZED.value());
+		        response.setCharacterEncoding("utf-8");
+		        response.getWriter().println("You are not Authorized");
+                return;
             }
         }
 

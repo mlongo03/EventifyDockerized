@@ -36,7 +36,7 @@ export class EventInfoComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.axiosService.authenticate();
+    // this.axiosService.authenticate();
 
     if (!this.event) {
       // Se l'evento non è stato fornito, crea un evento di esempio
@@ -127,7 +127,7 @@ export class EventInfoComponent implements OnInit {
   }
 
   toggleRegistration() {
-    this.axiosService.authenticate();
+    // this.axiosService.authenticate();
     this.route.params.subscribe((params) => {
       const eventId = +params['id'];
       const userId = window.localStorage.getItem('userId');
@@ -153,7 +153,7 @@ export class EventInfoComponent implements OnInit {
   }
 
   updateParticipantsList(eventId: number) {
-    this.axiosService.authenticate();
+    // this.axiosService.authenticate();
     this.axiosService
       .request('GET', `/api/event/findById/${eventId}`, {})
       .then((response) => {
