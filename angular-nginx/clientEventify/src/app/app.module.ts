@@ -39,7 +39,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { register } from 'swiper/element/bundle';
 import { FilterFormComponent } from './filter-form/filter-form.component';
 import { ModifyEventsComponent } from './modify-events/modify-events.component';
-
+import { HttpClientModule } from '@angular/common/http';
 
 register();
 
@@ -63,6 +63,7 @@ register();
     	ModifyEventsComponent,
 	],
 	imports: [
+		HttpClientModule,
 		MatExpansionModule,
 		EventInfoComponent,
 		BrowserModule,

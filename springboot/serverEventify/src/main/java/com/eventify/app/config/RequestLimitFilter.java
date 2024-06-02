@@ -28,13 +28,13 @@ public class RequestLimitFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        String clientIP = request.getRemoteAddr();
-
-        if (isRequestLimitExceeded(clientIP, (HttpServletResponse) response)) {
-            return;
-        } else {
+//        String clientIP = request.getRemoteAddr();
+//
+//        if (isRequestLimitExceeded(clientIP, (HttpServletResponse) response)) {
+//            return;
+//        } else {
             chain.doFilter(request, response);
-        }
+//        }
     }
 
     @Override

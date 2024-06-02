@@ -1,11 +1,16 @@
 package com.eventify.app.config;
 
+import com.eventify.app.AppApplication;
+import com.eventify.app.service.LoginFailureHandler;
+import com.eventify.app.service.LoginSuccessHandler;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,6 +33,7 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationProvider authenticationProvider;
     private final LogoutHandler logoutHandler;
+    private final ApplicationContext applicationContext;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -49,6 +55,11 @@ public class SecurityConfig {
                   .headers(headers -> headers
                           .addHeaderWriter(new StaticHeadersWriter("Content-Security-Policy", "script-src 'self';"))
                           .frameOptions(Customizer.withDefaults()))
+                  .formLogin(formLogin -> formLogin
+                          .loginPage("/api/auth/login")
+                          .successHandler(applicationContext.getBean(LoginSuccessHandler.class))
+                          .failureHandler(applicationContext.getBean(LoginFailureHandler.class))
+                          .permitAll())
                   .logout(logout -> logout
                           .logoutUrl("/api/auth/logout")
                           .addLogoutHandler(logoutHandler)

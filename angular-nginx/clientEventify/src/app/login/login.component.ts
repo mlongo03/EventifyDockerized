@@ -2,6 +2,7 @@ import { Component, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AxiosService } from '../axios.service';
 import { Router } from '@angular/router';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 @Component({
 	selector: 'app-login',
@@ -15,7 +16,7 @@ export class LoginComponent {
 	isPasswordVisible = false;
 	loginForm: FormGroup;
 
-	constructor(private formBuilder: FormBuilder, private el: ElementRef, private axiosService: AxiosService, private router: Router){
+	constructor(private formBuilder: FormBuilder, private el: ElementRef, private axiosService: AxiosService, private router: Router, private http: HttpClient){
 		this.loginForm = this.formBuilder.group({
 			email: [
 				'',
@@ -48,37 +49,45 @@ export class LoginComponent {
 	}
 
 	onSubmit() {
+
 		console.log("submitted");
+
 		if (this.loginForm.valid) {
 			console.log("sending login request");
-			this.axiosService.request2(
-				"POST",
-				"/api/auth/signin",
-				{
-				email: this.loginForm.get('email')?.value,
-				password: this.loginForm.get('password')?.value
-				}
-				).then(response => {
-					if (response.data.error !== null) {
-						this.showError = true;
-						this.errorMessage = response.data.error;
-						this.axiosService.request2(
-							"POST",
-							"/api/auth/signin-failure",
-							{
-								email: this.loginForm.get('email')?.value
-							})
-					} else {
-						console.log(response.data.email);
-						window.localStorage.setItem("email", response.data.email);
-						this.router.navigate(['/2FA-login']);
-					}
-				  })
-				  .catch(error => {
-					this.showError = true;
-					this.errorMessage = 'An error occurred during login:', error;
-					console.error('An error occurred during login:', error);
-				  })
+			const formData = new FormData();
+			formData.append('username', this.loginForm.get('email')?.value);
+			formData.append('password', this.loginForm.get('password')?.value);
+
+			this.http.post<any>('https://127.0.0.1:8443/api/auth/login', formData)
+			.subscribe(data => {
+				console.log(data.email);
+				window.localStorage.setItem("email", data.email);
+				this.router.navigate(['/2FA-login']);
+			},
+			(error: HttpErrorResponse) => {
+				this.showError = true;
+				this.errorMessage = 'An error occurred during login:', error;
+				console.error('An error occurred during login:', error);
+			});
+
+			// console.log("sending login request");
+			// this.axiosService.request2(
+			// 	"POST",
+			// 	"/api/auth/login",
+			// 	{
+			// 	username: this.loginForm.get('email')?.value,
+			// 	password: this.loginForm.get('password')?.value
+			// 	}
+			// 	).then(response => {
+			// 		console.log(response.data.email);
+			// 		window.localStorage.setItem("email", response.data.email);
+			// 		this.router.navigate(['/2FA-login']);
+			// 	  })
+			// 	  .catch(error => {
+			// 		this.showError = true;
+			// 		this.errorMessage = 'An error occurred during login:', error;
+			// 		console.error('An error occurred during login:', error);
+			// 	  })
 
 		} else {
 			// Dati inseriti errati

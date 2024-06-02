@@ -69,10 +69,10 @@ public class AuthenticationController {
       return ResponseEntity.ok(authService.signUp(registerRequest));
     }
 
-    @PostMapping("api/auth/signin")
-    public ResponseEntity<AuthenticationResponse> signIn(@RequestBody LoginRequest loginRequest, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return ResponseEntity.ok(authService.signIn(loginRequest, request, response));
-    }
+//    @PostMapping("api/auth/signin")
+//    public ResponseEntity<AuthenticationResponse> signIn(@RequestBody LoginRequest loginRequest, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//        return ResponseEntity.ok(authService.signIn(loginRequest, request, response));
+//    }
 
     @PostMapping("/api/authenticate")
     public ResponseEntity<String> authenticate(HttpServletRequest request) {

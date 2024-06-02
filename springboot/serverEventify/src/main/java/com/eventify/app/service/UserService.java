@@ -54,6 +54,7 @@ public class UserService implements IUserService {
 		foundUser.get().setEmail(User.getEmail());
 		foundUser.get().setPassword(User.getPassword());
 		foundUser.get().setProfilePicture(User.getProfilePicture());
+		foundUser.get().setOtp(User.getOtp());
 		userRepository.save(foundUser.get());
 
 		return foundUser;
