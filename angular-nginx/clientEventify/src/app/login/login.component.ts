@@ -59,6 +59,7 @@ export class LoginComponent {
 			formData.append('password', this.loginForm.get('password')?.value);
 
 			this.http.post<any>('https://127.0.0.1:8443/api/auth/login', formData)
+			// this.http.post<any>('<PROT>://<IP>:<PORT>/api/auth/login', formData)
 			.subscribe(data => {
 				console.log(data.email);
 				window.localStorage.setItem("email", data.email);

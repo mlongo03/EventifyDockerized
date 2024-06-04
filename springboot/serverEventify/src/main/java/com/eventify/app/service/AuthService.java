@@ -72,37 +72,6 @@ public class AuthService {
         return ("Registered Succesfully");
     }
 
-    public AuthenticationResponse signIn(LoginRequest loginRequest, HttpServletRequest request, HttpServletResponse response) {
-        String accessToken = null;
-        String refreshToken = null;
-        String errorMessage = null;
-		Date expirationDate = null;
-        try {
-            Authentication authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            Optional<User> user = userService.findByEmail(loginRequest.getEmail());
-            if (user.isEmpty()) {
-                errorMessage = "Email not registered";
-                return AuthenticationResponse.builder().error(errorMessage).accessToken(accessToken).refreshToken(refreshToken).build();
-            }
-
-            try {
-                String secretKey = generateSecretKey();
-                int otp = generateOtp(secretKey);
-                emailService.sendSignInEmail(loginRequest.getEmail(), otp);
-                user.get().setOtp(otp);
-                userService.update(user.get().getId(), user.get());
-            } catch (MessagingException e) {
-                errorMessage = "Bad Credentials";
-                return AuthenticationResponse.builder().error(errorMessage).accessToken(accessToken).refreshToken(refreshToken).build();
-            }
-            return AuthenticationResponse.builder().error(errorMessage).accessToken(accessToken).refreshToken(refreshToken).expirationDate(expirationDate).email(user.get().getEmail()).build();
-        } catch (BadCredentialsException e) {
-            errorMessage = "Bad Credentials";
-            return AuthenticationResponse.builder().error(errorMessage).accessToken(accessToken).refreshToken(refreshToken).build();
-        }
-    }
-
     public ResponseEntity<AuthenticationResponse> refreshToken( HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String refreshToken;
 		String userEmail;

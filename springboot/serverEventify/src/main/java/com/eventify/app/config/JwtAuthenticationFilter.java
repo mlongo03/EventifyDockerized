@@ -7,6 +7,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -40,7 +41,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         Cookie tokenCookie = WebUtils.getCookie(request, "access_token");
 
         if (tokenCookie == null) {
-            // chain.doFilter(request, response);
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            response.setCharacterEncoding("utf-8");
+            response.getWriter().println("You are not authenticated");
             return;
         }
 
@@ -48,16 +51,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String username = jwtService.extractUsername(jwt);
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails user = this.userDetailsService.loadUserByUsername(username);
-            if (jwtService.isTokenValid(jwt, user)) {
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-            }
-            else {
+            try {
+                UserDetails user = this.userDetailsService.loadUserByUsername(username);
+                if (jwtService.isTokenValid(jwt, user)) {
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
+                else {
+                    response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                    response.setCharacterEncoding("utf-8");
+                    response.getWriter().println("You are not authenticated");
+                    return;
+                }
+            } catch (UsernameNotFoundException e) {
                 response.setStatus(HttpStatus.UNAUTHORIZED.value());
-		        response.setCharacterEncoding("utf-8");
-		        response.getWriter().println("You are not Authorized");
+                response.setCharacterEncoding("utf-8");
+                response.getWriter().println("You are not authenticated");
                 return;
             }
         }

@@ -15,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.eventify.app.model.User;
 import com.eventify.app.model.json.AuthenticationResponse;
 import com.eventify.app.model.json.EmailOtp;
-import com.eventify.app.model.json.LoginRequest;
 import com.eventify.app.model.json.Otp2FA;
 import com.eventify.app.model.json.RegisterRequest;
 import com.eventify.app.model.json.ResetPasswordRequest;
@@ -67,16 +66,6 @@ public class AuthenticationController {
           registerRequest.setProfilePicture(photo);
           registerRequest.setCheckbox(checkbox);
       return ResponseEntity.ok(authService.signUp(registerRequest));
-    }
-
-//    @PostMapping("api/auth/signin")
-//    public ResponseEntity<AuthenticationResponse> signIn(@RequestBody LoginRequest loginRequest, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        return ResponseEntity.ok(authService.signIn(loginRequest, request, response));
-//    }
-
-    @PostMapping("/api/authenticate")
-    public ResponseEntity<String> authenticate(HttpServletRequest request) {
-        return ResponseEntity.ok("You are Authenticate");
     }
 
     @PostMapping("/api/auth/2FA")
